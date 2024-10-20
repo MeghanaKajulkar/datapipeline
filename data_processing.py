@@ -21,11 +21,20 @@ def process_data(input_file, output_dir):
 
 if __name__ == '__main__':
     # Define input and output paths
-    input_file = 'input_data.csv'  # Adjust this based on your setup
-    output_dir = 'output'
+    input_dir = 'input'  # Directory for input files
+    output_dir = 'output'  # Directory for output files
     
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
-    # Process the data
-    process_data(input_file, output_dir)
+    # Find the first CSV file in the input directory
+    found = False
+    for filename in os.listdir(input_dir):
+        if filename.endswith('.csv'):
+            input_file = os.path.join(input_dir, filename)
+            process_data(input_file, output_dir)
+            found = True
+            break  # Stop after processing the first found CSV file
+
+    if not found:
+        print("No CSV file found in the input directory.")
